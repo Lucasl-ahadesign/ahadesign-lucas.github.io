@@ -1,10 +1,364 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>AHAdesign - Portfolio</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AHA design | A Tribute to Human History and Destiny</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    
+    <style>
+        :root {
+            --deep-grey: #1A1E26; 
+            --warm-white: #FDFBF7;
+            --pale-champagne: #E5D8C1;
+            --font-thin: 200;
+            --font-ultra-thin: 100;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            background-color: var(--deep-grey);
+            color: var(--warm-white);
+            line-height: 1.8;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            scroll-padding-top: 80px; 
+        }
+
+        section, header { scroll-margin-top: 80px; }
+        h1, h2, h3 { font-weight: var(--font-thin); letter-spacing: 0.15em; text-transform: uppercase; }
+        
+        /* --- 导航栏 --- */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            z-index: 100;
+            background: rgba(26, 30, 38, 0.85); 
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        
+        /* 🌟 Logo 图片样式（强制限制高度，绝对不会全屏） */
+        .logo-img {
+            height: 36px; 
+            width: auto;
+            display: block;
+            /* 如果你们的图片是黑/灰色的，这个滤镜会强行把它变成白色 */
+        }
+
+        /* 如果实在放不出图片，就把上面的 img 换成文字 AHA，用下面这个样式 */
+        .logo-text {
+            font-size: 18px;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            color: var(--warm-white);
+        }
+        
+        .nav-links { display: flex; gap: 40px; font-size: 11px; letter-spacing: 0.25em; text-transform: uppercase; font-weight: var(--font-ultra-thin);}
+        .nav-links a { color: var(--warm-white); text-decoration: none; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--pale-champagne); }
+
+        /* --- 第一部分：英雄页面 --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 6vw 40px 6vw;
+            gap: 4vw;
+            background-color: var(--deep-grey);
+        }
+
+        .hero-text-column {
+            flex: 1;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .hero-text-column h2 {
+            font-size: 26px;
+            font-weight: var(--font-ultra-thin);
+            line-height: 1.4;
+            letter-spacing: 0.05em;
+            margin-bottom: 20px;
+            color: var(--warm-white);
+        }
+
+        .hero-text-column p {
+            font-size: 13px;
+            font-weight: var(--font-ultra-thin);
+            line-height: 1.8;
+            letter-spacing: 0.1em;
+            color: #64748b;
+            margin-bottom: 50px;
+        }
+
+        .explore-btn {
+            border: 1px solid var(--pale-champagne);
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 15px 30px;
+            color: var(--pale-champagne);
+            font-size: 11px;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            cursor: pointer;
+            font-weight: var(--font-ultra-thin);
+            transition: all 0.3s;
+        }
+        .explore-btn:hover { background: var(--pale-champagne); color: var(--deep-grey); }
+
+        .hero-image-column {
+            flex: 2;
+            display: flex;
+            justify-content: flex-start;
+            height: 100%;
+        }
+
+        .hero-image-column img {
+            width: 100%;
+            height: 90%;
+            object-fit: cover;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255,255,255,0.03);
+            filter: brightness(0.85) contrast(1.1) saturate(0.75);
+        }
+
+        #project-details {
+            display: none;
+            padding: 80px 6vw;
+            background-color: var(--deep-grey); 
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        #project-details p { font-weight: var(--font-ultra-thin); color: #64748b; font-size: 14px;}
+
+        /* --- 第二部分：哲学页 --- */
+        .philosophy {
+            min-height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 100px 6vw;
+            background: url('philosophy-bg.jpg') no-repeat center center/cover;
+        }
+
+        .philosophy-text-container {
+            max-width: 380px;
+            margin-left: auto;
+            position: relative;
+            z-index: 2;
+            padding-left: 20px;
+        }
+
+        .philosophy-text-container h2 { 
+            font-size: 12px; 
+            color: var(--pale-champagne); 
+            margin-bottom: 40px; 
+            letter-spacing: 0.3em;
+            font-weight: var(--font-thin);
+        }
+        
+        .philosophy-text-container p {
+            color: var(--warm-white); 
+            font-weight: var(--font-ultra-thin);
+            font-size: 14px;
+            line-height: 2.2;
+            letter-spacing: 0.15em;
+            margin-bottom: 30px;
+        }
+
+        .philosophy-text-container .highlight {
+            font-weight: var(--font-thin);
+            color: var(--pale-champagne);
+        }
+
+        /* --- 第三部分：全球视野 --- */
+        .insights {
+            padding: 120px 6vw;
+            text-align: center;
+            background-color: var(--deep-grey);
+        }
+        .insights h2 { font-size: 14px; color: var(--warm-white); margin-bottom: 15px; letter-spacing: 0.3em; font-weight: var(--font-thin);}
+        .insights p { font-size: 13px; color: #64748b; margin-bottom: 60px; letter-spacing: 0.1em; font-weight: var(--font-ultra-thin); max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.8;}
+        
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .insight-item {
+            aspect-ratio: 1 / 1;
+            background-color: var(--deep-grey);
+            background-size: cover;
+            background-position: center;
+            opacity: 0.35;
+            transition: all 0.5s ease;
+            filter: grayscale(100%);
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .insight-item:hover { opacity: 1; filter: grayscale(0%); transform: scale(1.03); border-color: var(--pale-champagne); }
+
+        /* --- 第四部分：联系页 --- */
+        .contact-section {
+            padding: 120px 6vw;
+            background-color: var(--deep-grey);
+            display: flex;
+            justify-content: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .contact-form-container { width: 100%; max-width: 600px; }
+        .contact-form-container h2 {
+            font-size: 12px; color: var(--warm-white); margin-bottom: 40px;
+            text-align: center; letter-spacing: 0.3em; font-weight: var(--font-thin);
+        }
+        .contact-form input,
+        .contact-form textarea {
+            width: 100%; background: transparent; border: none;
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            padding: 15px 0; margin-bottom: 30px;
+            color: var(--warm-white); font-size: 13px; font-weight: var(--font-ultra-thin);
+            letter-spacing: 0.15em; outline: none; transition: all 0.3s;
+        }
+        .contact-form input:focus,
+        .contact-form textarea:focus { border-bottom: 1px solid var(--pale-champagne); }
+        .contact-form textarea { resize: vertical; height: 100px; }
+        
+        .contact-form button {
+            width: 100%; background: transparent; 
+            border: 1px solid var(--warm-white);
+            color: var(--warm-white); 
+            padding: 15px; font-size: 11px;
+            letter-spacing: 0.25em; text-transform: uppercase; cursor: pointer;
+            font-weight: var(--font-ultra-thin); transition: all 0.3s; margin-top: 20px;
+        }
+        .contact-form button:hover { 
+            background: var(--pale-champagne); 
+            border-color: var(--pale-champagne);
+            color: var(--deep-grey); 
+        }
+
+        .footer {
+            padding: 40px; background-color: var(--deep-grey);
+            display: flex; justify-content: space-between;
+            font-size: 11px; color: var(--pale-champagne);
+            letter-spacing: 0.2em;
+            font-weight: var(--font-ultra-thin); text-transform: uppercase;
+        }
+
+        /* --- 移动端适配 --- */
+        @media (max-width: 900px) {
+            nav { padding: 20px; }
+            .nav-links { display: none; }
+            .hero { flex-direction: column-reverse; height: auto; padding: 100px 20px 60px 20px; gap: 40px; }
+            .hero-text-column { max-width: 100%; }
+            .hero-image-column { width: 100%; height: auto; }
+            .hero-image-column img { height: auto; max-height: 50vh; }
+            .philosophy { padding: 60px 20px; align-items: flex-end; }
+            .philosophy-text-container { margin-top: 50vh; padding-left: 0; max-width: 100%; }
+            .insights-grid { grid-template-columns: repeat(2, 1fr); }
+            .contact-section { padding: 80px 20px; }
+            .footer { flex-direction: column; gap: 10px; text-align: center; }
+        }
+    </style>
 </head>
 <body>
-  <h1>AHA Design</h1>
-  <p>Projects coming soon.</p>
+
+    <!-- 导航栏 -->
+    <nav>
+        <div class="logo">
+            <!-- 🌟 尝试显示图片Logo -->
+            <!-- 注意：如果图片依然不显示，请把下面这行 <img> 删掉，换成 <div class="logo-text">AHA</div> -->
+            <img src="logo-gold.png" alt="AHA Logo" class="logo-img">
+        </div>
+        <div class="nav-links">
+            <a href="#vision">Vision</a>
+            <a href="#project">Project</a>
+            <a href="#insights">Insights</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- 第一部分：英雄页面 -->
+    <header class="hero">
+        <div class="hero-text-column">
+            <h2>A Harmony of<br>Space and Destiny</h2>
+            <p>Piano Pavilion<br>Adelaide Parklands</p>
+            <button class="explore-btn" onclick="toggleDetails()">Explore the Concept</button>
+        </div>
+        <div class="hero-image-column">
+            <img src="piano-hero.jpg" alt="Piano Pavilion Render">
+        </div>
+    </header>
+
+    <div id="project-details">
+        <p>[ 此处将由儿子填入 Piano 项目的细节图纸 / 结构 / 材质 / 夜晚效果图 ]</p>
+    </div>
+
+    <!-- 第二部分：哲学页 -->
+    <section id="vision" class="philosophy">
+        <div class="philosophy-text-container">
+            <h2>A TRIBUTE TO HUMAN HISTORY AND DESTINY</h2>
+            <p>We want to remind the world that architecture is not just a style. <br>It is a relationship, a destiny, and the evidence of beautiful human existence.</p>
+            <p>From the light of our cities to the darkness of deep space, architecture witnesses the brief history of human civilization. <br>We build on Earth now and we may build on space then.</p>
+            <p class="highlight">So we cherish, we preserve, and we deliver the present.</p>
+        </div>
+    </section>
+
+    <!-- 第三部分：全球视野 -->
+    <section id="insights" class="insights">
+        <h2>GLOBAL DESIGN INSIGHTS</h2>
+        <p>We may be small, but our vision is boundless. We study the world's top architectural concepts, constantly exploring the infinite possibilities of human destiny.</p>
+        <div class="insights-grid">
+            <a href="https://www.example1.com" target="_blank" class="insight-item" style="background-image: url('top-1.jpg');"></a>
+            <a href="https://www.example2.com" target="_blank" class="insight-item" style="background-image: url('top-2.jpg');"></a>
+            <a href="https://www.example3.com" target="_blank" class="insight-item" style="background-image: url('top-3.jpg');"></a>
+            <a href="https://www.example4.com" target="_blank" class="insight-item" style="background-image: url('top-4.jpg');"></a>
+        </div>
+    </section>
+
+    <!-- 第四部分：联系页 -->
+    <section id="contact" class="contact-section">
+        <div class="contact-form-container">
+            <h2>CONTACT US</h2>
+            <form class="contact-form" onsubmit="event.preventDefault(); alert('Message Sent! (Demo)');">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Your Email" required>
+                <input type="tel" placeholder="Your Phone Number">
+                <textarea placeholder="Your Message"></textarea>
+                <button type="submit">Send Inquiry</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div>© 2026 AHAdesign</div>
+        <div>Adelaide, Australia</div>
+    </footer>
+
+    <script>
+        function toggleDetails() {
+            const details = document.getElementById('project-details');
+            const btn = document.querySelector('.explore-btn');
+            if (details.style.display === 'none' || details.style.display === '') {
+                details.style.display = 'block';
+                btn.textContent = 'Close Concept';
+            } else {
+                details.style.display = 'none';
+                btn.textContent = 'Explore the Concept';
+            }
+        }
+    </script>
 </body>
 </html>
